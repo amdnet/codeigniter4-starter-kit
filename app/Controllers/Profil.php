@@ -84,12 +84,12 @@ class Profil extends BaseController
             $s->remember = is_null($s->remember_id) ? 'bi-toggle-off' : 'bi-toggle-on';
 
             // Jika waktu server = app\Config\App.php -> appTimezone
-            // $lastActivity = strtotime($s->timestamp);
+            $lastActivity = strtotime($s->timestamp);
 
             // Jika waktu server ≠ app\Config\App.php -> appTimezone
-            $utcTime = Time::parse($s->timestamp, 'UTC');
-            $localTime = $utcTime->setTimezone('Asia/Jakarta');
-            $lastActivity = $localTime->getTimestamp();
+            // $utcTime = Time::parse($s->timestamp, 'UTC');
+            // $localTime = $utcTime->setTimezone('Asia/Jakarta');
+            // $lastActivity = $localTime->getTimestamp();
 
             $isExpired = ($lastActivity + $sesiExpire) <= $now;
 
@@ -98,12 +98,14 @@ class Profil extends BaseController
                 $s->ikon = 'bi-caret-right-fill';
                 $s->status = '<span class="lencana bg-success">Perangkat aktif</span>';
             } elseif (!$isExpired) {
+                // $timeAgo = $localTime->humanize();
                 $timeAgo = Time::createFromTimestamp($lastActivity)->humanize();
                 $timeAgo = str_replace('"', '', $timeAgo);
                 $s->warna = 'text-secondary';
                 $s->ikon = 'bi-caret-right';
                 $s->status = '<span class="lencana bg-secondary">Aktif ' . $timeAgo . '</span>';
             } else {
+                // $timeAgo = $localTime->humanize();
                 $timeAgo = Time::createFromTimestamp($lastActivity)->humanize();
                 $timeAgo = str_replace('"', '', $timeAgo);
                 $s->ikon = 'bi-caret-right';
