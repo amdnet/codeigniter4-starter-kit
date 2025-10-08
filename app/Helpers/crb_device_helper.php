@@ -13,7 +13,7 @@ if (!function_exists('getDeviceData')) {
     {
         // Key cache unik per user
         // $cacheKey = 'device_' . md5($uaString);
-        $cacheKey = 'device_' . auth()->id();
+        $cacheKey = 'device_' . auth()->id() . '_' . date('His');
         $cached = cache($cacheKey);
         if ($cached !== null) {
             return $cached;

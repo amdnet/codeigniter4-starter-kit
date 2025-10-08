@@ -33,7 +33,7 @@ if (!function_exists('getGeoIpData')) {
 
         // Kalau localhost → data fake
         if ($ip === '127.0.0.1') {
-            $cacheKey = 'geoip_' . auth()->id() . '_' . $ip;
+            $cacheKey = 'geoip_' . auth()->id() . '_' . $ip . '_' . date('His');
             $cached = cache($cacheKey);
             if ($cached !== null) {
                 return $cached;
@@ -52,7 +52,7 @@ if (!function_exists('getGeoIpData')) {
         }
 
         // Cek cache CI4
-        $cacheKey = 'geoip_' . auth()->id() . '_' . $ip;
+        $cacheKey = 'geoip_' . auth()->id() . '_' . $ip . '_' . date('His');
         $cached = cache($cacheKey);
         if ($cached !== null) {
             return $cached;
