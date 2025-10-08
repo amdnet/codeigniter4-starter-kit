@@ -16,8 +16,8 @@ class BuatUserProfil extends Migration
             'telegram' => ['type' => 'varchar', 'constraint' => 15, 'null' => true],
             'alamat' => ['type' => 'varchar', 'constraint' => 100, 'null' => true],
             'foto' => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'dibuat datetime default current_timestamp',
-            'dirubah datetime default current_timestamp on update current_timestamp'
+            'dibuat' => ['type' => 'datetime'],
+            'dirubah' => ['type' => 'datetime']
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('user_id', 'users', 'id', 'NO ACTION', 'CASCADE');

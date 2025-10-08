@@ -10,7 +10,7 @@ class UserProfilModel extends Model
     protected $primaryKey = 'id';
     protected $returnType = 'object';
     protected $allowedFields = ['user_id', 'perusahaan', 'whatsapp', 'telegram', 'alamat', 'foto'];
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $createdField = 'dibuat';
     protected $updatedField = 'dirubah';
 

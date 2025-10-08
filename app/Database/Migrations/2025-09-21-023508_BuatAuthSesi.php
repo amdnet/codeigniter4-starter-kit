@@ -11,7 +11,7 @@ class BuatAuthSesi extends Migration
         $this->forge->addField([
             'id'         => ['type' => 'VARCHAR', 'constraint' => 128, 'null' => false],
             'ip_address' => ['type' => 'VARCHAR', 'constraint' => 45, 'null' => false],
-            'timestamp'  => ['type' => 'INT', 'constraint' => 20, 'unsigned' => true, 'default' => 0],            
+            'timestamp timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL',
             'data'       => ['type' => 'BLOB', 'null' => false],
             'user_id'    => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],
             'remember_id'=> ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true],

@@ -71,7 +71,6 @@ class Profil extends BaseController
         foreach ($sesi as &$s) {
             $s->ip_publik = ($s->ip_address === '::1') ? '127.0.0.1' : $s->ip_address;
 
-            // $s->device = ($s->perangkat === 'Desktop') ? 'bi-laptop mr-2' : 'bi-phone ml-n2 mb-1';
             if ($s->perangkat === 'Robot') {
                 $s->device = 'bi-robot mr-2';
             } elseif ($s->perangkat === 'Tablet') {
@@ -83,7 +82,15 @@ class Profil extends BaseController
             }
 
             $s->remember = is_null($s->remember_id) ? 'bi-toggle-off' : 'bi-toggle-on';
-            $lastActivity = strtotime($s->timestamp);
+
+            // Jika waktu server = app\Config\App.php -> appTimezone
+            // $lastActivity = strtotime($s->timestamp);
+
+            // Jika waktu server ≠ app\Config\App.php -> appTimezone
+            $utcTime = Time::parse($s->timestamp, 'UTC');
+            $localTime = $utcTime->setTimezone('Asia/Jakarta');
+            $lastActivity = $localTime->getTimestamp();
+
             $isExpired = ($lastActivity + $sesiExpire) <= $now;
 
             if ($s->id === $sesiId && !$isExpired) {
@@ -92,21 +99,18 @@ class Profil extends BaseController
                 $s->status = '<span class="lencana bg-success">Perangkat aktif</span>';
             } elseif (!$isExpired) {
                 $timeAgo = Time::createFromTimestamp($lastActivity)->humanize();
-                // $timeAgo = humanizeId($lastActivity);
                 $timeAgo = str_replace('"', '', $timeAgo);
                 $s->warna = 'text-secondary';
                 $s->ikon = 'bi-caret-right';
                 $s->status = '<span class="lencana bg-secondary">Aktif ' . $timeAgo . '</span>';
             } else {
                 $timeAgo = Time::createFromTimestamp($lastActivity)->humanize();
-                // $timeAgo = humanizeId($lastActivity);
                 $timeAgo = str_replace('"', '', $timeAgo);
                 $s->ikon = 'bi-caret-right';
                 $s->warna = 'text-secondary';
                 $s->status = '<span class="lencana bg-secondary">Berakhir ' . $timeAgo . '</span>';
             }
         }
-        // return $this->response->setJSON(['sessions' => $sesi]);
 
         $data = [
             'sessions' => $sesi, // Data perangkat untuk halaman saat ini
