@@ -117,41 +117,17 @@
   <?= $this->renderSection('js') ?>
   <script>
     $(document).ready(function() {
-      <?php if (session()->getFlashdata('sukses')): ?>
-        Swal.fire({
-          icon: 'success',
-          title: 'Sukses',
-          html: '<?= session()->getFlashdata('sukses') ?>',
-          showConfirmButton: 'OK'
-        });
-      <?php elseif (session()->getFlashdata('error')): ?>
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          html: '<?= session()->getFlashdata('error') ?>',
-          showConfirmButton: 'OK'
-        });
-      <?php elseif (session()->getFlashdata('errors')): ?>
-        <?php
-        $errors = session()->getFlashdata('errors');
-        if (!is_array($errors)) {
-          $errors = [$errors];
-        }
-        ?>
-        let errors = '<?= implode('<br>', $errors) ?>';
-        Swal.fire({
-          icon: 'error',
-          title: 'Error Validasi',
-          html: errors,
-          showConfirmButton: 'OK'
-        });
-      <?php endif; ?>
+    <?php if (session()->getFlashdata('sukses')): ?>
+    Swal.fire({title:'Sukses',html:'<?= session()->getFlashdata('sukses') ?>',icon:'success'});
+    <?php elseif (session()->getFlashdata('error')): ?>
+    Swal.fire({title:'Error',html:'<?= session()->getFlashdata('error') ?>',icon:'error'});
+    <?php elseif (session()->getFlashdata('errors')): ?>
+    <?php $errors = session()->getFlashdata('errors');if(!is_array($errors)){$errors = [$errors];}?>
+    let errors = '<?= implode('<br>', $errors) ?>';
+    Swal.fire({title:'Error Validasi',html: errors,icon:'error'});
+    <?php endif; ?>
     });
-
-    window.addEventListener('load', function() {
-      const renderTime = performance.now(); // milidetik sejak navigationStart
-      document.getElementById('microtime').textContent = (renderTime / 1000).toFixed(2);
-    });
+    window.addEventListener("load",(function(){const renderTime=performance.now();document.getElementById("microtime").textContent=(renderTime/1e3).toFixed(2)}));;
   </script>
 
 </body>
