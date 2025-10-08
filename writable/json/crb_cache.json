@@ -1,0 +1,6 @@
+{
+    "cache_geoip": 3600,
+    "cache_device": 3600,
+    "statistik_user_list": 3600,
+    "statistik_user_login": 3600
+}

@@ -1,0 +1,10 @@
+<script src="<?= base_url('plugin/datatables/jquery.dataTables.min.js') ?>" defer></script>
+<script src="<?= base_url('plugin/datatables/dataTables.bootstrap4.min.js') ?>" defer></script>
+<script src="<?= base_url('plugin/datatables/dataTables.responsive.min.js') ?>" defer></script>
+<script src="<?= base_url('plugin/datatables/responsive.bootstrap4.min.js') ?>" defer></script>
+<script src="<?= base_url('plugin/datatables/dataTables.buttons.min.js') ?>" defer></script>
+<script src="<?= base_url('plugin/datatables/buttons.html5.min.js') ?>" defer></script>
+<script src="<?= base_url('plugin/datatables/jszip.min.js') ?>" defer></script>
+<script src="<?= base_url('page/helper_format.min.js') ?>" defer></script>
+<script src="<?= base_url('page/helper_form.min.js') ?>" defer></script>
+<script src="<?= base_url('page/helper_tabel.min.js') ?>" defer></script>

@@ -1,0 +1,231 @@
+:root {
+  --ui-font: "Plus Jakarta Sans", Inter, Manrope, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--ui-font);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* .main-footer,
+.form-control-file,
+.form-control-range {
+  font-size: 13px;
+} */
+
+.btn,
+.dropdown-menu,
+.form-control {
+  font-size: 14px;
+}
+
+.nav-sidebar>.nav-item .nav-icon,
+.nav-sidebar>.nav-item p {
+  font-size: 15px;
+}
+
+h1 {
+  font-size: 25px !important;
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 17px !important;
+}
+
+a {
+  color: #0055b1;
+}
+
+.nav-item .list i {
+  font-size: 17px;
+  border: 1px solid #666666;
+  border-radius: 4px;
+  padding: 3px 5px;
+}
+
+li.nav-header {
+  border-bottom: 1px solid #666666;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.main-footer {
+  color: #393939;
+}
+
+a:hover,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #003b7a;
+}
+
+/*
+* Custom CSS
+*/
+
+.kotak {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.lencana {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.info-kecil {
+  line-height: 1.2;
+  border-left: 1px solid #919191;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+/* 
+* Bootstrap 4.6.2 Custom Styles
+*/
+
+/* loading */
+.loadingSpinner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  text-align: center;
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* button */
+.btn-group-sm>.btn,
+.btn-sm {
+  padding: 5px 11px;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
+  background-color: #0068d7;
+}
+
+.input-group-text {
+  background-color: #fff;
+}
+
+.modal .input-group-text {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+}
+
+/* 
+* DataTables Custom Styles
+*/
+
+/* Reset bawaan DataTables */
+table.dataTable>thead .sorting::before,
+table.dataTable>thead .sorting::after,
+table.dataTable>thead .sorting_asc::before,
+table.dataTable>thead .sorting_asc::after,
+table.dataTable>thead .sorting_desc::before,
+table.dataTable>thead .sorting_desc::after {
+  float: none !important;
+  position: absolute !important;
+  right: 0.4em !important;
+  /* konsisten untuk semua ikon */
+  line-height: 0.2;
+  font-size: 0.8em;
+  margin-right: 5px
+}
+
+/* Segitiga ke atas */
+table.dataTable>thead .sorting::before,
+table.dataTable>thead .sorting_asc::before,
+table.dataTable>thead .sorting_desc::before {
+  content: "\25B2" !important;
+  /* ▲ */
+  top: calc(50% - 0.6em) !important;
+}
+
+/* Segitiga ke bawah */
+table.dataTable>thead .sorting::after,
+table.dataTable>thead .sorting_asc::after,
+table.dataTable>thead .sorting_desc::after {
+  content: "\25BC" !important;
+  /* ▼ */
+  top: calc(50% + 0.2em) !important;
+}
+
+/* pencarian */
+/* div.dataTables_wrapper div.dataTables_filter label {
+  text-align: right;
+} */
+
+div.dataTables_wrapper div.dataTables_filter input {
+  width: 50%;
+}
+
+/* Tombol */
+.dataTables_wrapper,
+.dataTables_wrapper .btn-sm,
+.dataTables_wrapper .form-control {
+  font-size: 13px
+}
+
+.dataTables_wrapper .dt-button {
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.dataTables_wrapper .dt-button:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.dataTables_wrapper .custom-select-sm {
+  font-size: 90%;
+}
+
+.dataTable tbody tr:hover {
+  background-color: #f0f8ff;
+}
+
+.dataTable .dtr-details {
+  width: 100%;
+}
+
+table.dataTable>tbody>tr.child span.dtr-title {
+  font-weight: 600;
+  min-width: 110px;
+}
+
+@media screen and (min-width: 768px) {
+
+  /* pencarian */
+  div.dataTables_wrapper div.dataTables_filter div {
+    float: right;
+  }
+
+  div.dataTables_wrapper div.dataTables_filter label {
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .dataTables_wrapper .dt-buttons {
+    float: none;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .dataTable tr.child .dtr-data {
+    float: right;
+  }
+}
