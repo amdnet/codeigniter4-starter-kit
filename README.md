@@ -1,73 +1,65 @@
-<<<<<<< HEAD
-# codeigniter4-starter-kit
-A modular and maintainable starter kit built with CodeIgniter 4 latest version and PHP 8.1+. Includes CI4 Settings, Shield authentication, GeoIP2 integration, and AdminLTE 3.2 UI. Preconfigured with login, profile, user list, cache management, and more. Ideal for real-world projects, mentoring workflows, and scalable system development.
-=======
-# CodeIgniter 4 Application Starter
+# CodeIgniter4 Starter Kit
 
-## What is CodeIgniter?
+A modular and maintainable starter kit built with CodeIgniter 4 and PHP 8.1+. Designed for real-world projects, mentoring workflows, and scalable system development.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## ✨ Features
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- ✅ CodeIgniter 4.x with PHP 8.1+
+- 🔐 Shield authentication: login, logout, registration, and page protection
+- ⚙️ CI4 Settings module for dynamic configuration
+- 🌍 GeoIP2 integration for location detection
+- 🎨 AdminLTE 3.2 dashboard template
+- 📄 Preconfigured pages:
+  - Auth: login, magic link form, magic link massage 
+  - User: profile, user list, user login
+  - Setting: general, cache, optimization
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## 🧱 Modular Structure
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+This starter kit is built for clarity and extensibility:
+- Active device session (laravel jetstream inspiration)
+- Modular helpers for device, brand, and model parsing
+- Cache-aware configuration separating DB and cache logic
+- Maintainable frontend with AJAX workflows and script loader
+- Region-aware logic for multi-location systems
 
-## Installation & updates
+## 📦 Dependencies
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+- codeigniter4/framework
+- codeigniter4/settings
+- codeigniter4/shield
+- geoip2/geoip2
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## 🚀 Getting Started
 
-## Setup
+1. Clone the repository:
+```bash
+git clone https://github.com/amdnet/codeigniter4-starter-kit.git
+cd codeigniter4-starter-kit
+```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+2. Install dependencies:
+```bash
+composer install
+```
 
-## Important Change with index.php
+Set up .env and configure your database
+```bash
+php spark serve
+```
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## 🤝 Contributions & Sponsorship
+This project welcomes contributions and sponsorship. If you're interested in:
+- Adding new features.
+- Improving structure or documentation.
+- Supporting long-term development.
+Feel free to open an issue or submit a pull request. Sponsorships are appreciated to support community mentoring and development.
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## 📚 Documentation & Learning
+Documentation is being expanded to help maintainers and interns understand:
+- Practical applications of DRY, SRP, and SoC.
+- Auditing and refactoring modules.
+- Edge case simulation and benchmarking.
 
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
->>>>>>> e30ffbb (Initial commit)
+## 📄 License
+This project is licensed under the MIT License.
