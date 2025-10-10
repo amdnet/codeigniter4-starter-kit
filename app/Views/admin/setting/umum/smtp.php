@@ -92,7 +92,7 @@
     </div>
 </form>
 
-<form action="<?= site_url('admin/settings/email/test') ?>" method="post" class="row my-3">
+<form action="<?= site_url('admin/setting/umum/tes-smtp') ?>" method="post" class="row my-3">
     <?= csrf_field() ?>
     <div class="col-md-6">
         <label for="smtpPass" class="mb-2">Uji coba pengiriman email</label>

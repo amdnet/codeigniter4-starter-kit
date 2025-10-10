@@ -28,8 +28,7 @@ class Home extends BaseController
         // service('settings')->set('App.gRecaptcha', false);
         // service('settings')->set('App.siteNama', 'Nama Situs');
         // service('settings')->set('App.tagLine', 'Nama Situs');
-// service('settings')->flush();
-
+        // service('settings')->flush();
 
         // $users = auth()->getProvider();
         // $user = $users->findById(2);
@@ -117,6 +116,7 @@ class Home extends BaseController
         // var_dump($geo);
 
         // return view('Shield/magic_link_message');
+        return view('email/standar');
     }
 
     public function cace()

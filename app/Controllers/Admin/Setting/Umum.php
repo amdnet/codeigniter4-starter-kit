@@ -70,9 +70,6 @@ class Umum extends BaseController
             return $this->response->setJSON(['success'  => false, 'messages' => $this->validation->getErrors()]);
         }
 
-        $encrypter = service('encrypter');
-        $smtpPass = base64_encode($encrypter->encrypt($this->request->getPost('smtpPass')));
-
         try {
             setting('App.smtpEmail', $this->request->getPost('smtpEmail'));
             setting('App.smtpNama', $this->request->getPost('smtpNama'));
@@ -81,8 +78,14 @@ class Umum extends BaseController
             setting('App.smtpHost', $this->request->getPost('smtpHost'));
             setting('App.smtpPort', $this->request->getPost('smtpPort'));
             setting('App.smtpUser', $this->request->getPost('smtpUser'));
-            setting('App.smtpPass', $smtpPass);
             setting('App.smtpCrypto', $this->request->getPost('smtpCrypto'));
+
+            $smtpPassRaw = $this->request->getPost('smtpPass');
+            if (trim($smtpPassRaw) !== '') {
+                $encrypter = service('encrypter');
+                $smtpPass = base64_encode($encrypter->encrypt($smtpPassRaw));
+                setting('App.smtpPass', $smtpPass);
+            }
         } catch (\Throwable $e) {
             log_message('error', 'Gagal simpan smtp: ' . $e->getMessage());
             return $this->response->setJSON(['success'  => false, 'messages' => lang("App.update-error")]);
@@ -109,19 +112,16 @@ class Umum extends BaseController
 
     public function tesSmtp()
     {
-        // 1. Ambil inputan atau data yang diperlukan
         $penerima = $this->request->getPost('testEmail');
         $judul    = "Tes Pengiriman Email CI4 Dinamis";
-        $pesan    = "Halo, ini adalah pesan tes dari CodeIgniter 4 menggunakan konfigurasi SMTP dari **database**!";
+        $pesan    = "Halo, ini adalah pesan tes dari CodeIgniter 4 menggunakan konfigurasi SMTP dari Librari!";
+        // $lampiran = WRITEPATH . 'json/crb_cache.json';
 
-        // 2. Gunakan Service Class kustom Anda
         $emailLibrari = new \App\Libraries\EmailLibrari();
-
-        if ($emailLibrari->sendEmail($penerima, $judul, $pesan)) {
-            return redirect()->back()->with('success', 'Email berhasil dikirim menggunakan pengaturan DB!');
+        // if ($emailLibrari->kirimEmailStandar($penerima, $judul, $pesan, [$lampiran])) {
+        if ($emailLibrari->kirimEmailStandar($penerima, $judul, $pesan)) {
+            return redirect()->back()->with('sukses', 'Email berhasil dikirim menggunakan pengaturan DB!');
         } else {
-            // Jika gagal, Anda bisa ambil debugger untuk melihat masalahnya:
-            // $debug = Services::email()->printDebugger(['headers']); 
             return redirect()->back()->with('error', 'Email gagal dikirim. Cek log atau debugger.');
         }
     }
