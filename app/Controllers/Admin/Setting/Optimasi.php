@@ -189,6 +189,7 @@ class Optimasi extends BaseController
 
         foreach ($status as $row) {
             $rowCount = $this->db->query("SELECT COUNT(*) AS total FROM {$row['Name']}")->getRow()->total;
+            $KiBtoMB = round(($row['Data_length'] + $row['Index_length']) / 1000000, 2);
 
             $result[] = [
                 'no' => $no++,
@@ -196,7 +197,7 @@ class Optimasi extends BaseController
                 'baris'    => (int) $rowCount,
                 'tipe'     => $row['Engine'],
                 'kelompok' => $row['Collation'],
-                'ukuran'   => round(($row['Data_length'] + $row['Index_length']) / 1024, 2),
+                'ukuran'   => $KiBtoMB,
                 'overhead' => round($row['Data_free'] / 1024, 2),
                 'dirubah' => date('Y-m-d H:i:s')
             ];
