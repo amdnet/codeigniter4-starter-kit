@@ -3,17 +3,23 @@
 namespace App\Libraries;
 
 /**
- * Simpan informasi perangkat dan geoip user
- * @see app\Config\Events.php
+ * Simpan informasi perangkat, geoip dan error
+ * 
+ * @param ?int $authLogId Last id dari tabel auth_logins
+ * @param ?string $tipeError Kategori tipe error
+ * @param ?string $infoError Detail informasi error
+ * @see app\Controllers\Auth\Login.php
+ * 
+ * @return void
  */
 class UserLoginLibrari
 {
-    public function logInfoLogin(?int $authLogId): void
+    public function logInfoLogin(?int $authLogId, ?string $tipeError = null, ?string $infoError = null): void
     {
         if ($authLogId === null) {
             return;
         }
-        
+
         helper(['crb_device', 'crb_geoip']);
         $device = getDeviceData();
         $geo = getGeoIpData();
@@ -30,7 +36,9 @@ class UserLoginLibrari
             'wilayah'    => $geo['wilayah'],
             'distrik'    => $geo['distrik'],
             'zona_waktu' => $geo['zona_waktu'],
-            'isp'        => $geo['isp']
+            'isp'        => $geo['isp'],
+            'tipe'       => $tipeError,
+            'error'      => $infoError
         ]);
     }
 }

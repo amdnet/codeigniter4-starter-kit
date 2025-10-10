@@ -17,7 +17,6 @@ class UserLogin extends BaseController
     public function index()
     {
         $data = [
-            // 'url' => 'admin/user-login',
             'pageTitle' => 'Informasi User Login',
             'navTitle' => 'User Login',
             'navigasi' => '<a href="/admin/user">User</a> &nbsp;',
@@ -31,16 +30,7 @@ class UserLogin extends BaseController
         $result = $this->authLoginsModel->tabel();
         foreach ($result as $key => $value) {
 
-            // $status = $value->success ? '✅ Berhasil' : '❌ Gagal';
-            if ($value->success) {
-                $status = '✅ Berhasil';
-            } else {
-                if (is_null($value->user_id)) {
-                    $status = '❌ Email Salah';
-                } else {
-                    $status = '❌ Password Salah';
-                }
-            }
+            $status = $value->success ? '✅ Berhasil' : '❌ Gagal';
 
             $mapTipeLogin = [
                 'email_password'    => 'Akun Email',
@@ -73,6 +63,8 @@ class UserLogin extends BaseController
                 $value->distrik ? $value->distrik : '-',
                 $value->zona_waktu ? $value->zona_waktu : '-',
                 $value->isp ? $value->isp : '-',
+                $value->tipe ? $value->tipe : '-',
+                $value->error ? $value->error : '-'
             ];
         }
         return $this->response->setJSON($data);
@@ -81,16 +73,13 @@ class UserLogin extends BaseController
     public function hapus()
     {
         $response = [];
-        $ids = $this->request->getPost('ids'); // Ambil array ID dari AJAX
+        $ids = $this->request->getPost('ids');
 
-        // Validasi: pastikan ada data dan semua integer
         if (empty($ids) || !is_array($ids)) {
-            return $this->response->setJSON(['success'  => false,'messages' => 'Tidak ada data yang dipilih.']);
+            return $this->response->setJSON(['success'  => false, 'messages' => 'Tidak ada data yang dipilih.']);
         }
 
-        // Filter hanya angka untuk keamanan
         $ids = array_filter($ids, 'is_numeric');
-
         if (empty($ids)) {
             return $this->response->setJSON(['success'  => false, 'messages' => 'Data ID tidak valid.']);
         }
@@ -121,7 +110,7 @@ class UserLogin extends BaseController
             $this->authLoginsModel->emptyTable();
             $this->db->query("ALTER TABLE auth_logins AUTO_INCREMENT = 1");
             $this->db->query("ALTER TABLE user_login AUTO_INCREMENT = 1");
-            
+
             cache()->delete('statistik_user_login');
 
             $response = ['success' => true, 'messages' => lang("App.delete-success")];
@@ -131,5 +120,23 @@ class UserLogin extends BaseController
         }
 
         return $this->response->setJSON($response);
+    }
+
+    public function refresh()
+    {
+        try {
+            $path = WRITEPATH . 'cache/statistik_user_login';
+            unlink($path);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'messages' => 'Database user login berhasil di generate ulang.'
+            ]);
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'success' => false,
+                'messages' => $e->getMessage()
+            ])->setStatusCode(500);
+        }
     }
 }

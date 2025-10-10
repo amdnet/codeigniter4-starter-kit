@@ -20,7 +20,9 @@ class UserLoginModel extends Model
         'wilayah',
         'distrik',
         'zona_waktu',
-        'isp'
+        'isp',
+        'tipe',
+        'error'
     ];
 	protected $useTimestamps  	= false;
 }

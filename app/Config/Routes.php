@@ -40,6 +40,7 @@ $routes->group('admin', ['filter' => 'group:superadmin,admin'], function ($route
             $routes->post('tabel', 'Admin\User\UserLogin::tabel');
             $routes->post('hapus', 'Admin\User\UserLogin::hapus');
             $routes->post('reset', 'Admin\User\UserLogin::reset');
+            $routes->post('refresh', 'Admin\User\UserLogin::refresh');
         });
     });
 
@@ -106,19 +107,8 @@ $routes->group('', ['filter' => 'session'], function ($routes) {
     });
 });
 
-service('auth')->routes($routes);
-// Daftarkan semua route Shield KECUALI login, register, magic-link
-// service('auth')->routes($routes, ['except' => ['login', 'magic-link']]);
+service('auth')->routes($routes, ['except' => ['login']]);
 
 // login
-// $routes->get('login', '\App\Controllers\Auth\LoginController::loginView', ['as' => 'login']);
-// $routes->post('login', '\App\Controllers\Auth\LoginController::loginAction');
-
-// magic-link
-$routes->post('magic-link', 'MagicLink::sendMagicLink', ['as' => 'magic-link']);
-// $routes->get('login/magic-link', '\App\Controllers\Auth\MagicLinkController::loginView', ['as' => 'magic-link']);
-// $routes->post('login/magic-link', '\App\Controllers\Auth\MagicLinkController::loginAction');
-
-// register
-// $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView', ['as' => 'register']);
-// $routes->post('register', '\App\Controllers\Auth\RegisterController::registerAction');
+$routes->get('login', 'Auth\Login::loginView', ['as' => 'login']);
+$routes->post('login', 'Auth\Login::loginAction');

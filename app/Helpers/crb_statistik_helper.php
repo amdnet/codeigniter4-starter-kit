@@ -15,7 +15,6 @@ function statUserList(): array
         return $cached;
     }
 
-    // Jika cache belum ada, buat cache baru
     $userModel = model(UserModel::class);
     $groupModel = model(GroupModel::class);
 
@@ -35,19 +34,21 @@ function statUserLogin(): array
 {
     $cacheKey = 'statistik_user_login';
     $cached = cache($cacheKey);
-    if ($cached !== null) {return $cached;}
+    if ($cached !== null) {
+        return $cached;
+    }
 
-    $authLoginsModel = model(AuthLoginsModel::class); // kolom: user_id, success
-    $userLoginModel  = model(UserLoginModel::class);  // kolom: perangkat
+    $authLoginsModel = model(AuthLoginsModel::class);
+    $userLoginModel  = model(UserLoginModel::class);
 
-    $loginTotal     = $authLoginsModel->countAllResults();
-    $loginBerhasil  = $authLoginsModel->where('success', 1)->countAllResults();
-    $loginSalahEmail = $authLoginsModel->where('success', 0)->where('user_id', null)->countAllResults();
-    $loginSalahPassword = $authLoginsModel->where('success', 0)->where('user_id !=', null)->countAllResults();
-    $perangkatCounts = $userLoginModel->select('perangkat, COUNT(*) as jumlah')->groupBy('perangkat')->findAll();
-    // log_message('debug', 'Statistik perangkat login: ' . json_encode($perangkatCounts));
+    $loginTotal         = $authLoginsModel->countAllResults(); // Total semua login
+    $loginBerhasil      = $authLoginsModel->where('success', 1)->countAllResults();
+    $loginGagal         = $authLoginsModel->where('success', 0)->countAllResults();
+    $loginSalahEmail    = $userLoginModel->where('tipe', 'Salah email')->countAllResults();
+    $loginSalahPassword = $userLoginModel->where('tipe', 'Salah password')->countAllResults();
+    $loginSalahLainnya  = $userLoginModel->whereNotIn('tipe', ['Salah email', 'Salah password'])->countAllResults();
+    $perangkatCounts    = $userLoginModel->select('perangkat, COUNT(*) as jumlah')->groupBy('perangkat')->findAll();
 
-    // Normalisasi perangkat
     $perangkatMap = [
         'Desktop' => 0,
         'Tablet'  => 0,
@@ -68,14 +69,15 @@ function statUserLogin(): array
     $data = [
         'login_total'          => $loginTotal,
         'login_berhasil'       => $loginBerhasil,
+        'login_gagal'          => $loginGagal,
         'login_salah_email'    => $loginSalahEmail,
         'login_salah_password' => $loginSalahPassword,
+        'login_salah_lainnya'  => $loginSalahLainnya,
         'login_desktop'        => $perangkatMap['Desktop'],
         'login_tablet'         => $perangkatMap['Tablet'],
         'login_mobile'         => $perangkatMap['Mobile'],
         'login_robot'          => $perangkatMap['Robot'],
     ];
-    // log_message('debug', 'Hasil akhir perangkatMap: ' . json_encode($perangkatMap));
 
     cache()->save($cacheKey, $data, getDurasiCache($cacheKey));
 

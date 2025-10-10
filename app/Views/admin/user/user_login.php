@@ -9,7 +9,7 @@
     <div class="container-fluid">
 
         <div class="stat-container row">
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-4 col-lg-2">
                 <div class="small-box bg-dark">
                     <div class="overlay dark">
                         <span class="spinner-border wh-3rem" role="status"></span>
@@ -22,42 +22,68 @@
                 </div>
             </div>
 
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-4 col-lg-2">
                 <div class="small-box bg-success">
                     <div class="overlay dark">
                         <span class="spinner-border wh-3rem" role="status"></span>
                     </div>
                     <div class="inner">
                         <h3 class="stat-value" data-key="login_berhasil">0</h3>
-                        <p>Login Berhasil</p>
+                        <p>Berhasil Login</p>
                     </div>
                     <div class="icon"><i class="bi bi-person-fill-check"></i></div>
                 </div>
             </div>
 
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="small-box bg-danger">
+                    <div class="overlay dark">
+                        <span class="spinner-border wh-3rem" role="status"></span>
+                    </div>
+                    <div class="inner">
+                        <h3 class="stat-value" data-key="login_gagal">0</h3>
+                        <p>Gagal Login</p>
+                    </div>
+                    <div class="icon"><i class="bi bi-person-fill-slash"></i></div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
                 <div class="small-box bg-danger">
                     <div class="overlay dark">
                         <span class="spinner-border wh-3rem" role="status"></span>
                     </div>
                     <div class="inner">
                         <h3 class="stat-value" data-key="login_salah_email">0</h3>
-                        <p>Email Salah</p>
+                        <p>Salah Email</p>
                     </div>
-                    <div class="icon"><i class="bi bi-person-fill-slash"></i></div>
+                    <div class="icon"><i class="bi bi-person-fill-x"></i></div>
                 </div>
             </div>
 
-            <div class="col-6 col-md-3">
+            <div class="col-6 col-md-4 col-lg-2">
                 <div class="small-box bg-danger">
                     <div class="overlay dark">
                         <span class="spinner-border wh-3rem" role="status"></span>
                     </div>
                     <div class="inner">
                         <h3 class="stat-value" data-key="login_salah_password">0</h3>
-                        <p>Password Salah</p>
+                        <p>Salah Password</p>
                     </div>
-                    <div class="icon"><i class="bi bi-person-fill"></i></div>
+                    <div class="icon"><i class="bi bi-person-fill-x"></i></div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="small-box bg-danger">
+                    <div class="overlay dark">
+                        <span class="spinner-border wh-3rem" role="status"></span>
+                    </div>
+                    <div class="inner">
+                        <h3 class="stat-value" data-key="login_salah_lainnya">0</h3>
+                        <p>Salah Lainnya</p>
+                    </div>
+                    <div class="icon"><i class="bi bi-person-fill-x"></i></div>
                 </div>
             </div>
 
@@ -82,7 +108,7 @@
                     <span class="info-box-icon bg-success"><i class="bi bi-tablet"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Tablet</span>
-                        <span class="stat-value info-box-number"  data-key="login_tablet">0</span>
+                        <span class="stat-value info-box-number" data-key="login_tablet">0</span>
                     </div>
                 </div>
             </div>
@@ -139,6 +165,8 @@
                                     <th class="none">Distrik</th>
                                     <th class="none">Zona Waktu</th>
                                     <th class="none">ISP</th>
+                                    <th class="none">Tipe Error</th>
+                                    <th class="none">Info Error</th>
                                 </tr>
                             </thead>
                         </table>

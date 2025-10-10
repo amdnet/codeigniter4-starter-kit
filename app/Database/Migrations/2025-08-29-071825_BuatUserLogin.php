@@ -24,10 +24,15 @@ class BuatUserLogin extends Migration
             'wilayah' => ['type' => 'varchar', 'constraint' => 100, 'null' => true], // provinsi
             'distrik' => ['type' => 'varchar', 'constraint' => 100, 'null' => true], // kota, kabupaten
             'zona_waktu' => ['type' => 'varchar', 'constraint' => 50, 'null' => true],
-            'isp' => ['type' => 'varchar', 'constraint' => 150, 'null' => true] // isp provider
+            'isp' => ['type' => 'varchar', 'constraint' => 150, 'null' => true], // isp provider
+
+            // Kolom Error
+            'tipe' => ['type' => 'varchar', 'constraint' => 30, 'null' => true], // tipe error
+            'error' => ['type' => 'text', 'null' => true] // pesan error
         ]);
 
         $this->forge->addKey('id', true);
+        $this->forge->addKey('tipe');
         $this->forge->addForeignKey('login_id', 'auth_logins', 'id', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('user_login');
     }
