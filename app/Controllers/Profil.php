@@ -82,15 +82,7 @@ class Profil extends BaseController
             }
 
             $s->remember = is_null($s->remember_id) ? 'bi-toggle-off' : 'bi-toggle-on';
-
-            // Jika waktu server = app\Config\App.php -> appTimezone
-            $lastActivity = strtotime($s->timestamp);
-
-            // Jika waktu server ≠ app\Config\App.php -> appTimezone
-            // $utcTime = Time::parse($s->timestamp, 'UTC');
-            // $localTime = $utcTime->setTimezone('Asia/Jakarta');
-            // $lastActivity = $localTime->getTimestamp();
-
+            $lastActivity = strtotime($s->dibuat);
             $isExpired = ($lastActivity + $sesiExpire) <= $now;
 
             if ($s->id === $sesiId && !$isExpired) {
@@ -98,14 +90,12 @@ class Profil extends BaseController
                 $s->ikon = 'bi-caret-right-fill';
                 $s->status = '<span class="lencana bg-success">Perangkat aktif</span>';
             } elseif (!$isExpired) {
-                // $timeAgo = $localTime->humanize();
                 $timeAgo = Time::createFromTimestamp($lastActivity)->humanize();
                 $timeAgo = str_replace('"', '', $timeAgo);
                 $s->warna = 'text-secondary';
                 $s->ikon = 'bi-caret-right';
                 $s->status = '<span class="lencana bg-secondary">Aktif ' . $timeAgo . '</span>';
             } else {
-                // $timeAgo = $localTime->humanize();
                 $timeAgo = Time::createFromTimestamp($lastActivity)->humanize();
                 $timeAgo = str_replace('"', '', $timeAgo);
                 $s->ikon = 'bi-caret-right';
@@ -148,10 +138,10 @@ class Profil extends BaseController
                     $authSesiModel->hapusSesi($sesi->id);
                 }
             }
-            $response = ['status'  => 'success', 'messages' => 'Berhasil logout dari perangkat lain.'];
+            $response = ['success'  => true, 'messages' => 'Berhasil logout dari perangkat lain.'];
         } catch (\Throwable $th) {
             log_message('error', 'logoutPerangkatLain: ' . $th->getMessage());
-            $response = ['status'  => 'error', 'messages' => 'Info: ' . $th->getMessage()];
+            $response = ['success'  => false, 'messages' => 'Info: ' . $th->getMessage()];
         }
         return $this->response->setJSON($response);
     }

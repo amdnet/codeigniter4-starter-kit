@@ -47,14 +47,14 @@ class AuthSesiLibrari
 
         $data = array_merge([
             'user_id'     => auth()->id(),
-            'remember_id' => $rememberId
+            'remember_id' => $rememberId,
+            'dibuat'      => date('Y-m-d H:i:s')
         ], $deviceInfo);
 
         try {
             model('Auth/AuthSesiModel')->update($sesiId, $data);
             // $affected = model('Auth/AuthSesiModel')->affectedRows(); // atau $model->builder()->affectedRows()
             // log_message('debug', "Update auth_sesi sukses untuk sesi {$sesiId}, affected rows: {$affected}, remember_id: {$rememberId}");
-            // log_message('debug', "Update auth_sesi sukses untuk sesi {$sesiId} dengan remember_id {$rememberId}");
         } catch (\Throwable $e) {
             log_message('error', 'Gagal update auth_sesi: ' . $e->getMessage());
         }

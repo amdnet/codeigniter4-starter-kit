@@ -12,7 +12,7 @@ class AuthSesiModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'remember_id', 'perangkat', 'os', 'browser'];
+    protected $allowedFields    = ['user_id', 'remember_id', 'perangkat', 'os', 'browser', 'dibuat'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -52,7 +52,7 @@ class AuthSesiModel extends Model
     public function getProfil(int $userId, int $perPage)
     {
         return $this->where('user_id', $userId)
-            ->orderBy('timestamp', 'DESC')
+            ->orderBy('dibuat', 'DESC')
             ->paginate($perPage);
     }
 

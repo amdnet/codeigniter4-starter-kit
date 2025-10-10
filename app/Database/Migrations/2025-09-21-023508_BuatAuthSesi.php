@@ -18,6 +18,7 @@ class BuatAuthSesi extends Migration
             'perangkat'  => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true],
             'os'         => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true],
             'browser'    => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true],
+            'dibuat'     => ['type' => 'datetime', 'null' => true]
         ]);
 
         $this->forge->addKey('id', true);
