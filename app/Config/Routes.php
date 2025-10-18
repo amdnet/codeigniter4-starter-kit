@@ -107,8 +107,13 @@ $routes->group('', ['filter' => 'session'], function ($routes) {
     });
 });
 
-service('auth')->routes($routes, ['except' => ['login']]);
+service('auth')->routes($routes, ['except' => ['login', 'magic-link']]);
 
 // login
 $routes->get('login', 'Auth\Login::loginView', ['as' => 'login']);
 $routes->post('login', 'Auth\Login::loginAction');
+
+// magic-link
+$routes->get('login/magic-link', 'Auth\MagicLink::loginView', ['as' => 'magic-link']);
+$routes->post('login/magic-link', 'Auth\MagicLink::loginAction');
+$routes->get('verify-magic-link', 'Auth\MagicLink::verify', ['as' => 'verify-magic-link']);

@@ -79,12 +79,14 @@ class Umum extends BaseController
             setting('App.smtpPort', $this->request->getPost('smtpPort'));
             setting('App.smtpUser', $this->request->getPost('smtpUser'));
             setting('App.smtpCrypto', $this->request->getPost('smtpCrypto'));
+            // setting('App.smtpPass', $this->request->getPost('smtpPass'));
 
             $smtpPassRaw = $this->request->getPost('smtpPass');
             if (trim($smtpPassRaw) !== '') {
-                $encrypter = service('encrypter');
-                $smtpPass = base64_encode($encrypter->encrypt($smtpPassRaw));
-                setting('App.smtpPass', $smtpPass);
+            //     $encrypter = service('encrypter');
+            //     $smtpPass = base64_encode($encrypter->encrypt($smtpPassRaw));
+            //     setting('App.smtpPass', $smtpPass);
+                setting('App.smtpPass', $smtpPassRaw);
             }
         } catch (\Throwable $e) {
             log_message('error', 'Gagal simpan smtp: ' . $e->getMessage());
@@ -112,14 +114,15 @@ class Umum extends BaseController
 
     public function tesSmtp()
     {
-        $penerima = $this->request->getPost('testEmail');
-        $judul    = "Tes Pengiriman Email CI4 Dinamis";
-        $pesan    = "Halo, ini adalah pesan tes dari CodeIgniter 4 menggunakan konfigurasi SMTP dari Librari!";
+        $emailLibrari = new \App\Libraries\EmailLibrari();
+
+        $email = $this->request->getPost('testEmail');
+        $judul = "Tes Pengiriman Email CI4 Dinamis";
+        $pesan = "Halo, ini adalah pesan tes dari CodeIgniter 4 menggunakan konfigurasi SMTP dari Librari!";
         // $lampiran = WRITEPATH . 'json/crb_cache.json';
 
-        $emailLibrari = new \App\Libraries\EmailLibrari();
-        // if ($emailLibrari->kirimEmailStandar($penerima, $judul, $pesan, [$lampiran])) {
-        if ($emailLibrari->kirimEmailStandar($penerima, $judul, $pesan)) {
+        // if ($emailLibrari->emailStandar($email, $judul, $pesan, [$lampiran])) {
+        if ($emailLibrari->emailStandar($email, $judul, $pesan, null)) {
             return redirect()->back()->with('sukses', 'Email berhasil dikirim menggunakan pengaturan DB!');
         } else {
             return redirect()->back()->with('error', 'Email gagal dikirim. Cek log atau debugger.');

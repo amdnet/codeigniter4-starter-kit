@@ -12,7 +12,7 @@ class LogEmailModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'email', 'judul', 'status', 'render', 'error', 'dibuat'];
+    protected $allowedFields    = ['admin', 'email', 'judul', 'status', 'render', 'error', 'dibuat'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

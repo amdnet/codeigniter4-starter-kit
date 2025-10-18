@@ -12,6 +12,8 @@
 
             <div class="card-body">
                 <p><?= lang('Auth.magicLinkDetails', [setting('Auth.magicLinkLifetime') / 60]) ?></p>
+                <div style="border-bottom: 1px solid rgba(0,0,0,.125);" class="my-3"></div>
+                <p class="mb-1"><a href="<?= url_to('login') ?>">Kembali ke login</a></p>
             </div>
         </div>
     </div>

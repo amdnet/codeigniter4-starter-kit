@@ -2,51 +2,78 @@
 
 namespace App\Controllers\Auth;
 
-use CodeIgniter\Controller;
-use CodeIgniter\Shield\Models\UserModel;
+use CodeIgniter\Shield\Controllers\MagicLinkController as ShieldMagicLink;
 use App\Libraries\EmailLibrari;
+use CodeIgniter\Shield\Models\UserIdentityModel;
+use CodeIgniter\Shield\Authentication\Authenticators\Session;
+use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\I18n\Time;
 
-class MagicLink extends Controller
+class MagicLink extends ShieldMagicLink
 {
-    /**
-     * Menangani permintaan untuk mengirim Magic Link.
-     */
-    public function sendMagicLink()
+    public function loginAction()
     {
-        // --- Langkah 1: Panggil Logic Shield untuk mengirim link ---
-        $emailAddress = $this->request->getPost('email');
-        // $users = auth()->getProvider();
-        // $user = $users->findByCredentials(['email' => $emailAddress]);
-        $user = model(UserModel::class)->where('email', $emailAddress)->first();
-        // $user = model('UserModel')->where('email', $emailAddress)->first();
+        if (! setting('Auth.allowMagicLinkLogins')) {
+            return redirect()->route('login')->with('error', lang('Auth.magicLinkDisabled'));
+        }
+
+        // Validasi email
+        $rules = $this->getValidationRules();
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+            return redirect()->route('magic-link')->with('errors', $this->validator->getErrors());
+        }
+
+        // Cari user
+        $email = $this->request->getPost('email');
+        $user  = $this->provider->findByCredentials(['email' => $email]);
 
         if ($user === null) {
-            return redirect()->back()->with('error', lang('Auth.badAttempt'));
+            return redirect()->route('magic-link')->with('error', lang('Auth.invalidEmail', [$email]));
         }
 
-        // Generate token dan simpan di database
-        $token = $user->generateLoginToken();
-        if (! $token || ! $token->secret) {
-            log_message('error', 'Gagal generate token untuk user ID: ' . $user->id);
-            return redirect()->back()->with('error', 'Gagal membuat magic link.');
-        }
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
 
-        // --- Langkah 2: Kirim Email menggunakan EmailSender kustom ---
-        // Buat Magic Link URL
-        $magicLinkUrl = route_to('magic-link-login') . '?token=' . $token->secret . '&email=' . rawurlencode($user->email);
+        // Hapus magic link lama
+        $identityModel->deleteIdentitiesByType($user, Session::ID_TYPE_MAGIC_LINK);
 
-        $subject = lang('Auth.magicLinkSubject');
-        $message = view('Auth/Emails/magic_link_message', ['magicLink' => $magicLinkUrl]); // Asumsi Anda punya view ini
-        $to      = $user->email;
+        // Generate token
+        helper('text');
+        $token = random_string('crypto', 20);
 
+        $identityModel->insert([
+            'user_id' => $user->id,
+            'type'    => Session::ID_TYPE_MAGIC_LINK,
+            'secret'  => $token,
+            'expires' => Time::now()->addSeconds(setting('Auth.magicLinkLifetime')),
+        ]);
+
+        /** @var IncomingRequest $request */
+        $request   = service('request');
+        $ipAddress = $request->getIPAddress();
+        $userAgent = (string) $request->getUserAgent();
+        $date      = Time::now()->toDateTimeString();
+
+        // === Custom Email via EmailLibrari ===
         $emailLibrari = new EmailLibrari();
+        $view   = $this->view(
+            setting('Auth.views')['magic-link-email'],
+            [
+                'token'     => $token,
+                'user'      => $user,
+                'ipAddress' => $ipAddress,
+                'userAgent' => $userAgent,
+                'date'      => $date,
+            ],
+            ['debug' => false]
+        );
 
-        if ($emailLibrari->sendEmail($to, $subject, $message)) {
-            return redirect()->back()->with('success', lang('Auth.magicLinkSent'));
-        } else {
-            // Gagal kirim email: Log error dan berikan pesan yang sesuai
-            log_message('error', 'Gagal mengirim magic link ke ' . $to . '. Debugger: ' . service('email')->printDebugger(['headers']));
-            return redirect()->back()->with('error', lang('Auth.errorSendingEmail'));
+        if (! $emailLibrari->kirimEmail($user->email, lang('Auth.magicLinkSubject'), $view)) {
+            return redirect()->route('magic-link')->with('error', lang('Auth.unableSendEmailToUser', [$user->email]));
         }
+        // === End Custom Email ===
+
+        // Sisanya tetap pakai bawaan Shield
+        return $this->displayMessage();
     }
 }
